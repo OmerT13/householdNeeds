@@ -30,6 +30,7 @@
                 android:id="@+id/itemQuantity"
                 android:layout_below="@+id/householdItem"
                 android:hint="@string/hint_qty"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <EditText
@@ -42,6 +43,7 @@
                 android:id="@+id/itemSize"
                 android:layout_below="@+id/itemColor"
                 android:hint="@string/hint_size"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <Button
