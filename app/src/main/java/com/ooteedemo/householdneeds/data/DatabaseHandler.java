@@ -126,7 +126,32 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return itemList;
     }
 
-//    Todo: add UpdateItem
-//    Todo: add DeleteItem
-//    Todo: add getItemCount
+    public int updateItem(Item item) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Constants.KEY_HOUSEHOLD_ITEM,item.getItemName());
+        values.put(Constants.KEY_COLOR,item.getItemColor());
+        values.put(Constants.KEY_QTY_NUMBER,item.getItemQuantity());
+        values.put(Constants.KEY_ITEM_SIZE,item.getItemSize());
+        values.put(Constants.KEY_DATE_NAME,java.lang.System.currentTimeMillis());
+
+        return db.update(Constants.TABLE_NAME,values,Constants.KEY_ID+"=?",new String[]{String.valueOf(item.getId())});
+    }
+    public void deleteItem(Item item) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(Constants.TABLE_NAME,Constants.KEY_ID+"=?",new String[]{String.valueOf(item.getId())});
+
+        db.close();
+    }
+    public int getItemCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String countQuery = "SELECT * FROM "+Constants.TABLE_NAME;
+
+        Cursor cursor = db.rawQuery(countQuery,null);
+
+        return cursor.getCount();
+    }
+
 }
