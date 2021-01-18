@@ -105,7 +105,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         Constants.KEY_QTY_NUMBER,
                         Constants.KEY_ITEM_SIZE,
                         Constants.KEY_DATE_NAME},
-                null,null,null,null,Constants.KEY_DATE_NAME+"DESC");
+                null,null,null,null,Constants.KEY_DATE_NAME+" DESC");
 
         if(cursor.moveToFirst()) {
             do {
