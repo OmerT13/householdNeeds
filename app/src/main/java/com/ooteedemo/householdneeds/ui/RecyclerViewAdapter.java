@@ -39,8 +39,8 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
         Item item = itemList.get(position); // Item object
         viewHolder.itemName.setText(item.getItemName());
         viewHolder.itemColor.setText(item.getItemColor());
-        viewHolder.quantity.setText(item.getItemQuantity());
-        viewHolder.size.setText(item.getItemSize());
+        viewHolder.quantity.setText(String.valueOf(item.getItemQuantity()));
+        viewHolder.size.setText(String.valueOf(item.getItemSize()));
         viewHolder.dateAdded.setText(item.getDateItemAdded());
     }
 
@@ -63,10 +63,10 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
             super(itemView);
             context = ctx;
 
-            itemName = itemView.findViewById(R.id.householdItem);
-            itemColor = itemView.findViewById(R.id.itemColor);
-            quantity = itemView.findViewById(R.id.itemQuantity);
-            size = itemView.findViewById(R.id.itemSize);
+            itemName = itemView.findViewById(R.id.item_name);
+            itemColor = itemView.findViewById(R.id.item_color);
+            quantity = itemView.findViewById(R.id.item_quantity);
+            size = itemView.findViewById(R.id.item_size);
             dateAdded = itemView.findViewById(R.id.item_date);
 
             editButton = itemView.findViewById(R.id.edit_button);
