@@ -67,10 +67,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(Constants.TABLE_NAME,
                 new String[] {Constants.KEY_ID,
-                Constants.KEY_HOUSEHOLD_ITEM,
-                Constants.KEY_QTY_NUMBER,
-                Constants.KEY_ITEM_SIZE,
-                Constants.KEY_DATE_NAME},
+                        Constants.KEY_HOUSEHOLD_ITEM,
+                        Constants.KEY_COLOR,
+                        Constants.KEY_QTY_NUMBER,
+                        Constants.KEY_ITEM_SIZE,
+                        Constants.KEY_DATE_NAME},
                 Constants.KEY_ID + "=?",
                 new String[] {String.valueOf(id)},null,null,null,null);
 
@@ -81,6 +82,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             item.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_ID))));
             item.setItemName(cursor.getString(cursor.getColumnIndex(Constants.KEY_HOUSEHOLD_ITEM)));
+            item.setItemColor(cursor.getString(cursor.getColumnIndex(Constants.KEY_COLOR)));
             item.setItemQuantity(cursor.getInt(cursor.getColumnIndex(Constants.KEY_QTY_NUMBER)));
             item.setItemSize(cursor.getInt(cursor.getColumnIndex(Constants.KEY_ITEM_SIZE)));
 
@@ -102,6 +104,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(Constants.TABLE_NAME,
                 new String[] {Constants.KEY_ID,
                         Constants.KEY_HOUSEHOLD_ITEM,
+                        Constants.KEY_COLOR,
                         Constants.KEY_QTY_NUMBER,
                         Constants.KEY_ITEM_SIZE,
                         Constants.KEY_DATE_NAME},
@@ -112,6 +115,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 Item item = new Item();
                 item.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_ID))));
                 item.setItemName(cursor.getString(cursor.getColumnIndex(Constants.KEY_HOUSEHOLD_ITEM)));
+                item.setItemColor(cursor.getString(cursor.getColumnIndex(Constants.KEY_COLOR)));
                 item.setItemQuantity(cursor.getInt(cursor.getColumnIndex(Constants.KEY_QTY_NUMBER)));
                 item.setItemSize(cursor.getInt(cursor.getColumnIndex(Constants.KEY_ITEM_SIZE)));
 

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter;
 import com.ooteedemo.householdneeds.R;
 import com.ooteedemo.householdneeds.model.Item;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>{
@@ -37,11 +38,11 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder viewHolder, int position) {
         Item item = itemList.get(position); // Item object
-        viewHolder.itemName.setText(item.getItemName());
-        viewHolder.itemColor.setText(item.getItemColor());
-        viewHolder.quantity.setText(String.valueOf(item.getItemQuantity()));
-        viewHolder.size.setText(String.valueOf(item.getItemSize()));
-        viewHolder.dateAdded.setText(item.getDateItemAdded());
+        viewHolder.itemName.setText(MessageFormat.format("Item: {0}", item.getItemName()));
+        viewHolder.itemColor.setText(MessageFormat.format("Color: {0}", item.getItemColor()));
+        viewHolder.quantity.setText(MessageFormat.format("Quantity: +{0}", String.valueOf(item.getItemQuantity())));
+        viewHolder.size.setText(MessageFormat.format("Size: {0}", String.valueOf(item.getItemSize())));
+        viewHolder.dateAdded.setText(MessageFormat.format("Added On: {0}", item.getDateItemAdded()));
     }
 
     @Override
