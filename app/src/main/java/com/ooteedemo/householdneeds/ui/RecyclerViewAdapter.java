@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import com.ooteedemo.householdneeds.R;
+import com.ooteedemo.householdneeds.data.DatabaseHandler;
 import com.ooteedemo.householdneeds.model.Item;
 
 import java.text.MessageFormat;
@@ -73,19 +74,29 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
             editButton = itemView.findViewById(R.id.edit_button);
             deleteButton = itemView.findViewById(R.id.delete_button);
             editButton.setOnClickListener(this);
-            editButton.setOnClickListener(this);
+            deleteButton.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            int position;
             switch (v.getId()) {
                 case R.id.edit_button:
 //                    do edit item stuff
                     break;
                 case R.id.delete_button:
-//                    do delete item stuff
+                    position = getAdapterPosition();
+                    Item item = itemList.get(position);
+                    deleteItem(item);
                     break;
             }
+        }
+
+        private void deleteItem(Item id) {
+            DatabaseHandler db = new DatabaseHandler(context);
+            db.deleteItem(id);
+            itemList.remove(getAdapterPosition());
+            notifyItemRemoved(getAdapterPosition());
         }
     }
 }
