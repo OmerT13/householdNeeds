@@ -1,5 +1,6 @@
 package com.ooteedemo.householdneeds.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +18,16 @@ import com.ooteedemo.householdneeds.model.Item;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>{
 
     private Context context;
     private List<Item> itemList;
+
+    private AlertDialog.Builder builder;
+    private AlertDialog dialog;
+    private LayoutInflater inflater;
 
     public RecyclerViewAdapter(Context context, List<Item> itemList) {
         this.context = context;
@@ -93,10 +99,36 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
         }
 
         private void deleteItem(Item id) {
-            DatabaseHandler db = new DatabaseHandler(context);
-            db.deleteItem(id);
-            itemList.remove(getAdapterPosition());
-            notifyItemRemoved(getAdapterPosition());
+
+            builder = new AlertDialog.Builder(context);
+            inflater = LayoutInflater.from(context);
+            View view = inflater.inflate(R.layout.confirmation_pop,null);
+
+            Button noButton = view.findViewById(R.id.conf_no_button);
+            Button yesButton = view.findViewById(R.id.conf_yes_button);
+
+            builder.setView(view);
+            dialog = builder.create();
+            dialog.show();
+
+            noButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            yesButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DatabaseHandler db = new DatabaseHandler(context);
+                    db.deleteItem(id);
+                    itemList.remove(getAdapterPosition());
+                    notifyItemRemoved(getAdapterPosition());
+
+                    dialog.dismiss();
+                }
+            });
         }
     }
 }
