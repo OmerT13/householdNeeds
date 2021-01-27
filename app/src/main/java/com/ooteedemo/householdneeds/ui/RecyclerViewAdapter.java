@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -88,7 +89,8 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
             int position;
             switch (v.getId()) {
                 case R.id.edit_button:
-//                    do edit item stuff
+                    int adapterPosition = getAdapterPosition();
+                    editItem(adapterPosition);
                     break;
                 case R.id.delete_button:
                     position = getAdapterPosition();
@@ -130,5 +132,50 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
                 }
             });
         }
+    }
+
+    public void editItem(int adapterPosition) {
+
+        Item item = itemList.get(adapterPosition);
+
+        builder = new AlertDialog.Builder(context);
+        inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.popup,null);
+
+        Button saveButton;
+        EditText householdItem;
+        EditText itemQuantity;
+        EditText itemColor;
+        EditText itemSize;
+        TextView title;
+
+        householdItem = view.findViewById(R.id.householdItem);
+        itemQuantity = view.findViewById(R.id.itemQuantity);
+        itemColor = view.findViewById(R.id.itemColor);
+        itemSize = view.findViewById(R.id.itemSize);
+        saveButton = view.findViewById(R.id.saveButton);
+        title = view.findViewById(R.id.title);
+
+        saveButton.setText(R.string.update_text);
+        householdItem.setText(item.getItemName());
+        itemQuantity.setText(String.valueOf(item.getItemQuantity()));
+        itemColor.setText(item.getItemColor());
+        itemSize.setText(String.valueOf(item.getItemSize()));
+
+        title.setText(R.string.edit_item);
+
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.show();
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Todo:Update Item in the DB
+                DatabaseHandler databaseHandler = new DatabaseHandler(context);
+
+            }
+        });
+
     }
 }
