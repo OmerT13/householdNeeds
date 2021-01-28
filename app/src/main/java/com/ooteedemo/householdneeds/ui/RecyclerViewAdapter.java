@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.ooteedemo.householdneeds.R;
 import com.ooteedemo.householdneeds.data.DatabaseHandler;
 import com.ooteedemo.householdneeds.model.Item;
@@ -86,15 +87,13 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
 
         @Override
         public void onClick(View v) {
-            int position;
+            int position = getAdapterPosition();
+            Item item = itemList.get(position);
             switch (v.getId()) {
                 case R.id.edit_button:
-                    int adapterPosition = getAdapterPosition();
-                    editItem(adapterPosition);
+                    editItem(item, position);
                     break;
                 case R.id.delete_button:
-                    position = getAdapterPosition();
-                    Item item = itemList.get(position);
                     deleteItem(item);
                     break;
             }
@@ -134,10 +133,7 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
         }
     }
 
-    public void editItem(int adapterPosition) {
-
-        Item item = itemList.get(adapterPosition);
-
+    public void editItem(Item id, int adapterPosition) {
         builder = new AlertDialog.Builder(context);
         inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.popup,null);
@@ -157,10 +153,10 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
         title = view.findViewById(R.id.title);
 
         saveButton.setText(R.string.update_text);
-        householdItem.setText(item.getItemName());
-        itemQuantity.setText(String.valueOf(item.getItemQuantity()));
-        itemColor.setText(item.getItemColor());
-        itemSize.setText(String.valueOf(item.getItemSize()));
+        householdItem.setText(id.getItemName());
+        itemQuantity.setText(String.valueOf(id.getItemQuantity()));
+        itemColor.setText(id.getItemColor());
+        itemSize.setText(String.valueOf(id.getItemSize()));
 
         title.setText(R.string.edit_item);
 
@@ -171,9 +167,23 @@ public class RecyclerViewAdapter extends Adapter<RecyclerViewAdapter.ViewHolder>
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Todo:Update Item in the DB
                 DatabaseHandler databaseHandler = new DatabaseHandler(context);
 
+                id.setItemName(householdItem.getText().toString());
+                id.setItemQuantity(Integer.parseInt(itemQuantity.getText().toString()));
+                id.setItemColor(itemColor.getText().toString());
+                id.setItemSize(Integer.parseInt(itemSize.getText().toString()));
+
+                if (!householdItem.getText().toString().isEmpty()
+                    && !itemQuantity.getText().toString().isEmpty()
+                    && !itemColor.getText().toString().isEmpty()
+                    && !itemSize.getText().toString().isEmpty()){
+                        databaseHandler.updateItem(id);
+                        notifyItemChanged(adapterPosition,id);
+                } else {
+                    Snackbar.make(v,"Things can't be empty",Snackbar.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
             }
         });
 

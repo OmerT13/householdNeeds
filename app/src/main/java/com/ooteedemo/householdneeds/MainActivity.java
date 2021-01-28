@@ -108,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!householdItem.getText().toString().isEmpty()
-                        && !itemColor.getText().toString().isEmpty()
                         && !itemQuantity.getText().toString().isEmpty()
+                        && !itemColor.getText().toString().isEmpty()
                         && !itemSize.getText().toString().isEmpty()){
                     saveItem(v);
                 } else {
